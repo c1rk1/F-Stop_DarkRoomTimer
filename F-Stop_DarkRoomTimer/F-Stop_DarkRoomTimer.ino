@@ -1,5 +1,7 @@
 /*
 Simple F-Stop Timer by Andy
+Ver. 1.01
+2026
 */
 
 #include <ShiftDisplay.h>
@@ -17,10 +19,9 @@ const int BUZZER_PIN = 10;              // buzzer pin
 const int t0ne = 523;                   //buzzer tome
 
 byte encdir, encbut, menulevel, menuitem, itemcount, f_stop, strip;
-double e_time, d_time;
-float countdown;
-byte f_stop_[6] = { 0, 1, 2, 3, 6, 12 };  // 1/1, 1/2, 1/3, 1/6, 1/12
-byte strip_[5] = { 0, 3, 5, 7, 9 };       //strip count -/0/+ with f-stop step
+float e_time, d_time, countdown, temp_time;
+byte f_stop_[7] = { 0, 1, 2, 3, 4, 6, 12 };  // 1/1, 1/2, 1/3, 1/4, 1/6, 1/12
+byte strip_[5] = { 0, 3, 5, 7, 9 };          //strip count -/0/+ with f-stop step
 String temp_str;
 bool _10x;
 float strip_expo_[10];  //store strip values
@@ -31,10 +32,10 @@ Button pedal(SBUTTON_PIN);
 
 
 void setup() {
-  // Serial.begin(115200);   // for debug 
-  // Set the trigger to be either a HIGH or LOW pin (Default: HIGH)
-  // Note this sets all three pins to use the same state.
-  rotary.setTrigger(HIGH);
+
+  // Serial.begin(115200);   // for debug
+  display.show(1.01, 1000, ALIGN_RIGHT);   //show version
+  rotary.setTrigger(HIGH);     // Set the trigger to be either a HIGH or LOW pin (Default: HIGH) Note this sets all three pins to use the same state.
   rotary.setDebounceDelay(5);  // Set the debounce delay in ms  (Default: 2)
   rotary.setErrorDelay(250);   // Set the error correction delay in ms  (Default: 200)
   pedal.begin();
@@ -75,8 +76,8 @@ void loop() {
         if (encbut == 1) {
           menulevel = 11;
           encbut = 0;
-          itemcount = 5;
-          menuitem = binarySearch(f_stop_, 6, f_stop);
+          itemcount = 6;
+          menuitem = binarySearch(f_stop_, 7, f_stop);
         }
         break;
       case 2:  //set strip count
@@ -115,8 +116,8 @@ void loop() {
         if (encbut == 1) {
           menulevel = 51;
           encbut = 0;
-          itemcount = 10;
-          menuitem = 10;
+          itemcount = 100;
+          menuitem = 100;
         }
         break;
     }
@@ -148,15 +149,18 @@ void loop() {
 
   if (menulevel == 31) {  // enlarger timer
     switch (encdir) {
+      float temp_time;
       case 1:
+        temp_time = e_time;
         e_time = e_time * pow(2.0, 1.0 / f_stop);
-        if (e_time > 900)
-          e_time = 900;
+        if (e_time > 999)
+          e_time = temp_time;
         break;
       case 2:
+        temp_time = e_time;
         e_time = e_time * pow(2.0, -1.0 / f_stop);
-        if (e_time < 1)
-          e_time = 1;
+        if (e_time < 0.1)
+          e_time = temp_time;
         break;
     }
     if (encdir != 0)
@@ -165,7 +169,7 @@ void loop() {
     if (pedal.pressed())
       expo();
     if (countdown == 0)
-      display.set(e_time, 1);
+      display.set(round_to_dp(e_time, 1), 1);
     else
       display.set(countdown, 1);
     if (encbut == 1) {
@@ -221,9 +225,9 @@ void loop() {
   }
 
   if (menulevel == 51) {  //Set initial time
-    display.set(e_time, 1);
+    display.set(round_to_dp(e_time, 1), 1);
     if (encdir != 0)
-      e_time = menuitem;
+      e_time = menuitem / 10.0;
     if (encbut == 1) {
       menulevel = 1;
       menuitem = 5;
@@ -234,7 +238,7 @@ void loop() {
 }
 
 
-void strip_expo() {  //to do!!!!
+void strip_expo() {  //strip expo
   encbut = 0;
   byte s = strip / 2;
   strip_expo_[s] = e_time;
@@ -340,4 +344,10 @@ byte binarySearch(byte array[], byte size, byte target) {
   }
   // Target is not present in array
   return -1;
+}
+
+float round_to_dp(float in_value, int decimal_place) {
+  float multiplier = powf(10.0f, decimal_place);
+  in_value = roundf(in_value * multiplier) / multiplier;
+  return in_value;
 }
