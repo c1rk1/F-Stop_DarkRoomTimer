@@ -1,5 +1,9 @@
 # F-Stop_DarkRoomTimer
-Simple to build, simple to use "F-Stop" DarkRoom Timer with develop timer. 
+Simple to build, simple to use "F-Stop" DarkRoom Timer. 
+- F-Stop-s  1/1, 1/2, 1/3, 1/4, 1/6, 1/12
+- Strip expo feature - 3, 5, 7, 9 strips
+- Zone expo feature, from 5 to 15 zones for dodge and burn
+- develop timer feature - 1-900sec (15min)
 
 F- stop printing was originally made popular by the award winning printer Gene Nocon in 1987. 
 
@@ -9,6 +13,7 @@ Menu options:
 *  SEt.t. : Set time
 *  F-St.  : f-stop set
 *  Stri.  : Strip
+*  Zone   : Zone expo
 
 En.-t. : Enlarger timer - set the desired value with the rotary encoder (the steps can be set in "F-St." menu) START/Pause with the "Pedal button". Sound will be played on lamp ON and lamp OFF. Default value after power up 10 sec. (you can change it in "SEt.t." menu).
 
@@ -19,14 +24,27 @@ SEt.t. : Set time - of the enlarger timer start/begining value (0.1-10.0)  defau
 F-St.  : f-stop set - set the steps what you want to use (1/1, 1/2, 1/3, 1/4, 1/6, 1/12 This will have effect in "En.-t. : Enlarger timer" and "Stri.  : Strip" menu
 
 Stri.  : Strip - an easy way to create test strip. First set the estimated exprosure time in "En.-t. : Enlarger timer" menu then in the "Stri.  : Strip" menu select the count of the strips you want (3, 5, 7, 9). It will display ex. "S.-5" from Strip-5. To procced, long press the rotary encoder and the display will show blinking number 1. If you are ready press pedal/START button and exprosure will be made, continue while all strip is done - according to the selected count.
-So for example 5. you will have 2 under exprosure and 2 over exprosure and in the midle the estimated value in  "En.-t. : Enlarger timer" menu. Ex: you estimated 10sec in  "En.-t. : Enlarger timer" menu and selected 1/2 F-Stops in "F-St.  : f-stop" menu and S.-5 (five strips). This will be:
+So for example 5. you will have 2 under exprosure and 2 over exprosure and in the middle the estimated value in  "En.-t. : Enlarger timer" menu. Ex: you estimated 10sec in  "En.-t. : Enlarger timer" menu and selected 1/2 F-Stops in "F-St.  : f-stop" menu and S.-5 (five strips). This will be:
 1. strip = 5.0sec
-2. strip = 7.1sec (+2.1sec to previous)
-3. strip = 10.0sec - the midle (+2.9sec to previous)
-4. strip = 14.1sec (+4.1sec to previous)
-5. strip = 20.0sec (+5.9sec to previous)
+2. strip + 2.1sec to previous (total 7.1sec)
+3. strip + 2.9sec to previous (total 10.0sec - the middle, what you selected  in  "En.-t. : Enlarger timer" menu)
+4. strip + 4.1sec to previous (total 14.1sec)
+5. strip + 5.9sec to previous (total 20.0sec)
 
 After developing the paper (use dE.-t. : Develop timer) select the best exprosure time what you can set it in "En.-t. : Enlarger timer" menu.
+
+
+Zone   : Zone expo is very similar in use to Strip menu but the Zones (sequences) can be select from 5-15. The total expo time will be the time selected in "En.-t. : Enlarger timer" menu and the steps will be F-Stops selected in "F-St.  : f-stop" menu.
+
+Example: you set 20sec in  "En.-t. : Enlarger timer" menu and selected 1/2 F-Stops in "F-St.  : f-stop" menu and Z.-5 (five zone). This will be:
+1. Zone = 5.0sec
+2. Zone + 2.1sec to previous (total 7.1sec)
+3. Zone + 2.9sec to previous (total 10.0sec)
+4. Zone + 4.1sec to previous (total 14.1sec)
+5. Zone + 5.9sec to previous (total 20.0sec)
+
+The zones will help you to make dodge and burn on the print.
+
 
 In the schematics I used big 1" 7-segment RED display with the 74HC595 shift registers connected to arduino 5,6,7 pins useing the ShiftDisplay library from Github. You can use any 7segment 4 digit red display what is compatible with the ShiftDisplay library.
 * Rotary encoder connect to pins 2,3,4 and GND (A,B, button)
@@ -37,6 +55,9 @@ In the schematics I used big 1" 7-segment RED display with the 74HC595 shift reg
 TO DO list:
 1. expand dE.-t. : Develop timer to can select minutes with seconds or seconds only and add selectable tick sound for 10,20,30 sec to use for film developing and tick sound for flip inversion remainder.
 
+Ver. 1.02 
+- Added Zone expo feature, from 5 to 15 zones for dodge and burn
+  
 Ver. 1.01 
 - Added 1/4 F-Stop
 - Added 0.1 resolution for SEt.t. : Set time menu
