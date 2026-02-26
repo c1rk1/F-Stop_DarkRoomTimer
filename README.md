@@ -1,4 +1,4 @@
-# F-Stop_DarkRoomTimer
+# F-Stop DarkRoom Timer
 Simple to build, simple to use "F-Stop" DarkRoom Timer. 
 - F-Stop-s  1/1, 1/2, 1/3, 1/4, 1/6, 1/12
 - Strip expo feature - 3, 5, 7, 9 strips
@@ -47,6 +47,9 @@ The zones will help you to make dodge and burn on the print.
 
 
 In the schematics I used big 1" 7-segment RED display with the 74HC595 shift registers connected to arduino 5,6,7 pins useing the ShiftDisplay library from Github. You can use any 7segment 4 digit red display what is compatible with the ShiftDisplay library.
+
+Added support for Adafruit_LEDBackpack HT16K33 4 digit 14-Segment Display - use F-Stop_DarkRoomTimer14
+
 * Rotary encoder connect to pins 2,3,4 and GND (A,B, button)
 * START/PAUSE pedal/button connect to pin 8 and GND - simple push button or pedal or both
 * Lamp controll relay board connect to pin 9 and GND - simple 5v relay board to controll the enlarger
